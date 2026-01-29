@@ -1,0 +1,389 @@
+.container {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 2px solid #E8E8E7;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2D2D2D;
+  margin: 0;
+}
+
+.counter {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+.emptyText {
+  font-size: 15px;
+  color: #888;
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+}
+
+.challenges {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: white;
+  border: 2px solid #E8E8E7;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: #D4D4D3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card.completed {
+  background: rgba(124, 152, 133, 0.02);
+  border-color: rgba(124, 152, 133, 0.3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitleContainer {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cardTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2D2D2D;
+  margin: 0;
+}
+
+.categoryBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B7280;
+  background: #F3F4F6;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.cardMeta {
+  margin-top: 4px;
+}
+
+.duration {
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.actionButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+.actionButton:hover {
+  color: #7C9885;
+  background: rgba(124, 152, 133, 0.1);
+}
+
+.removeButton:hover {
+  color: #DC2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.expandButton:hover {
+  color: #7C9885;
+}
+
+.expandIcon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.expandIcon.expanded {
+  transform: rotate(180deg);
+}
+
+.purpose {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 12px 0 0 36px;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.cardContent {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #E8E8E7;
+  margin-left: 36px;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #7C9885;
+  margin: 0 0 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sectionText {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #5A5A5A;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.durationPicker {
+  background: #F9FAFB;
+  border: 2px dashed #D1D5DB;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pickerTitle {
+  font-size: 15px;
+  color: #4B5563;
+  margin: 0 0 16px 0;
+  font-weight: 500;
+}
+
+.durationButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.durationButton {
+  background: white;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.durationButton:hover {
+  border-color: #7C9885;
+  color: #7C9885;
+  background: rgba(124, 152, 133, 0.05);
+}
+
+.randomButton {
+  background: linear-gradient(135deg, #7C9885 0%, #6B8773 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.randomButton:hover {
+  background: linear-gradient(135deg, #6B8773 0%, #5A7662 100%);
+  color: white;
+  transform: scale(1.02);
+}
+
+.cancelButton {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: color 0.2s ease;
+}
+
+.cancelButton:hover {
+  color: #5A5A5A;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: linear-gradient(135deg, #7C9885 0%, #6B8773 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.addButton:hover {
+  background: linear-gradient(135deg, #6B8773 0%, #5A7662 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 152, 133, 0.3);
+}
+
+.addButton:active {
+  transform: translateY(0);
+}
+
+.limitText {
+  font-size: 14px;
+  color: #9CA3AF;
+  text-align: center;
+  margin: 0;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-top: 24px;
+    padding-top: 24px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .cardTitle {
+    font-size: 15px;
+  }
+
+  .categoryBadge {
+    font-size: 10px;
+  }
+
+  .purpose {
+    margin-left: 32px;
+    font-size: 13px;
+  }
+
+  .cardContent {
+    margin-left: 32px;
+  }
+
+  .sectionText {
+    font-size: 13px;
+  }
+
+  .durationButtons {
+    gap: 6px;
+  }
+
+  .durationButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

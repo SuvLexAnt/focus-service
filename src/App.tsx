@@ -3,10 +3,12 @@ import { Analytics } from '@vercel/analytics/react';
 import { Day } from './types/meditation';
 import { loadMeditationProgram } from './utils/parser';
 import { useProgress } from './hooks/useProgress';
+import { useBonusChallenges } from './hooks/useBonusChallenges';
 import { getMaxAvailableDay } from './utils/storage';
 import { StartDateModal } from './components/StartDateModal/StartDateModal';
 import { DaySelector } from './components/DaySelector/DaySelector';
 import { PracticeCard } from './components/PracticeCard/PracticeCard';
+import { BonusChallenges } from './components/BonusChallenges/BonusChallenges';
 import styles from './App.module.css';
 
 function App() {
@@ -14,6 +16,9 @@ function App() {
   const [selectedDay, setSelectedDay] = useState(1);
   const [loading, setLoading] = useState(true);
   const { data, setStartDate, togglePractice, isPracticeCompleted, getDayProgress } = useProgress();
+
+  const dayId = `day-${selectedDay}`;
+  const bonusChallenges = useBonusChallenges(dayId);
 
   useEffect(() => {
     loadMeditationProgram().then((loadedDays) => {
@@ -93,19 +98,30 @@ function App() {
 
             <div className={styles.practices}>
               {currentDay.practices.map((practice) => {
-                const dayId = `day-${currentDay.number}`;
-                const isCompleted = isPracticeCompleted(dayId, practice.id);
+                const currentDayId = `day-${currentDay.number}`;
+                const isCompleted = isPracticeCompleted(currentDayId, practice.id);
 
                 return (
                   <PracticeCard
                     key={practice.id}
                     practice={practice}
                     isCompleted={isCompleted}
-                    onToggle={() => handleTogglePractice(dayId, practice.id)}
+                    onToggle={() => handleTogglePractice(currentDayId, practice.id)}
                   />
                 );
               })}
             </div>
+
+            <BonusChallenges
+              challenges={bonusChallenges.challenges}
+              canAddMore={bonusChallenges.canAddMore}
+              maxChallenges={bonusChallenges.maxChallenges}
+              onAdd={bonusChallenges.addChallenge}
+              onReplace={bonusChallenges.replaceChallenge}
+              onRemove={bonusChallenges.removeChallenge}
+              onToggle={bonusChallenges.toggleChallenge}
+              isChallengeCompleted={bonusChallenges.isChallengeCompleted}
+            />
           </div>
         )}
       </div>
