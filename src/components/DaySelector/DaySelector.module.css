@@ -1,0 +1,137 @@
+.container {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2D2D2D;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.day {
+  position: relative;
+  background: #FAFAF9;
+  border: 2px solid #E8E8E7;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.day:hover:not(.locked) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #7C9885;
+}
+
+.day.selected {
+  border-color: #7C9885;
+  background: rgba(124, 152, 133, 0.05);
+}
+
+.day.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.day.completed {
+  border-color: #7C9885;
+  background: rgba(124, 152, 133, 0.1);
+}
+
+.dayNumber {
+  font-size: 28px;
+  font-weight: 700;
+  color: #7C9885;
+  margin-bottom: 4px;
+}
+
+.dayTitle {
+  font-size: 13px;
+  color: #5A5A5A;
+  margin-bottom: 12px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressBar {
+  height: 4px;
+  background: #E8E8E7;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #7C9885 0%, #6B8773 100%);
+  transition: width 0.5s ease;
+}
+
+.progressText {
+  font-size: 11px;
+  color: #888;
+  font-weight: 500;
+}
+
+.lockIcon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 14px;
+}
+
+.checkIcon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background: #7C9885;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px;
+  }
+
+  .days {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 12px;
+  }
+
+  .day {
+    padding: 12px;
+  }
+
+  .dayNumber {
+    font-size: 24px;
+  }
+
+  .dayTitle {
+    font-size: 11px;
+    min-height: 28px;
+  }
+}

@@ -1,0 +1,130 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(45, 45, 45, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: #FAFAF9;
+  border-radius: 16px;
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #2D2D2D;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #5A5A5A;
+  margin: 0 0 32px 0;
+  text-align: center;
+}
+
+.dateInput {
+  margin-bottom: 32px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2D2D2D;
+  margin-bottom: 8px;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 2px solid #E8E8E7;
+  border-radius: 12px;
+  background: white;
+  color: #2D2D2D;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.input:hover {
+  border-color: #7C9885;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #7C9885;
+  box-shadow: 0 0 0 4px rgba(124, 152, 133, 0.1);
+}
+
+.button {
+  width: 100%;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #7C9885 0%, #6B8773 100%);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(124, 152, 133, 0.3);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 152, 133, 0.4);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.note {
+  font-size: 13px;
+  color: #888;
+  margin: 24px 0 0 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    padding: 32px 24px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+}

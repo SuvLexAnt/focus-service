@@ -1,0 +1,70 @@
+.container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  width: 0;
+  height: 0;
+}
+
+.label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #E8E8E7;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.input:hover + .label .checkbox {
+  border-color: #7C9885;
+}
+
+.input:checked + .label .checkbox {
+  background: linear-gradient(135deg, #7C9885 0%, #6B8773 100%);
+  border-color: #7C9885;
+  animation: checkBounce 0.4s ease;
+}
+
+@keyframes checkBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.checkIcon {
+  width: 12px;
+  height: 10px;
+  animation: checkDraw 0.3s ease;
+}
+
+@keyframes checkDraw {
+  from {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+  }
+  to {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 0;
+  }
+}
