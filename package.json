@@ -21,6 +21,7 @@
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.6.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

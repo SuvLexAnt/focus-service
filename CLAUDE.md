@@ -103,3 +103,18 @@ npm run test:coverage # Run tests with coverage
 ```
 
 Uses Vitest with React Testing Library. TypeScript strict mode is enabled.
+
+## Analytics
+
+**Provider:** [Vercel Analytics](https://vercel.com/docs/analytics)
+
+**Package:** `@vercel/analytics`
+
+**Integration point:** `src/App.tsx` — `<Analytics />` component from `@vercel/analytics/react`
+
+Analytics is automatically enabled when deployed to Vercel. No configuration required.
+
+**To remove analytics:**
+1. Uninstall package: `npm uninstall @vercel/analytics`
+2. Remove import and `<Analytics />` component from `src/App.tsx`
+3. Update this documentation

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { Day } from './types/meditation';
 import { loadMeditationProgram } from './utils/parser';
 import { useProgress } from './hooks/useProgress';
@@ -41,15 +42,23 @@ function App() {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner} />
-        <p>Загрузка...</p>
-      </div>
+      <>
+        <div className={styles.loading}>
+          <div className={styles.spinner} />
+          <p>Загрузка...</p>
+        </div>
+        <Analytics />
+      </>
     );
   }
 
   if (!data.startDate) {
-    return <StartDateModal onStart={handleStartDateSet} />;
+    return (
+      <>
+        <StartDateModal onStart={handleStartDateSet} />
+        <Analytics />
+      </>
+    );
   }
 
   const currentDay = days.find(d => d.number === selectedDay);
@@ -104,6 +113,8 @@ function App() {
       <footer className={styles.footer}>
         <p>Ваша способность к фокусировке тренируется с каждым днём 🌱</p>
       </footer>
+
+      <Analytics />
     </div>
   );
 }
