@@ -47,7 +47,7 @@ function App() {
           <div className={styles.spinner} />
           <p>Загрузка...</p>
         </div>
-        <Analytics />
+        <Analytics debug={import.meta.env.DEV} />
       </>
     );
   }
@@ -56,7 +56,7 @@ function App() {
     return (
       <>
         <StartDateModal onStart={handleStartDateSet} />
-        <Analytics />
+        <Analytics debug={import.meta.env.DEV} />
       </>
     );
   }
@@ -114,7 +114,7 @@ function App() {
         <p>Ваша способность к фокусировке тренируется с каждым днём 🌱</p>
       </footer>
 
-      <Analytics />
+      <Analytics debug={import.meta.env.DEV} />
     </div>
   );
 }
