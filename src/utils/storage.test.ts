@@ -304,5 +304,22 @@ describe('storage', () => {
 
       expect(result).toBe(2) // Day 2 is available but not complete
     })
+
+    it('should enforce sequential progression even if later days marked complete', () => {
+      // Simulates localStorage manipulation - day 5 marked complete, but day 1 incomplete
+      localStorage.setItem('meditation-data', JSON.stringify({
+        startDate: null,
+        currentDay: 1,
+        progress: {
+          'day-1': { 'p1': true }, // 1/3 - incomplete
+          'day-5': { 'p1': true, 'p2': true, 'p3': true }, // 3/3 - "complete"
+        },
+      }))
+
+      const days = createDays([3, 3, 3, 3, 3])
+      const result = getMaxAvailableDay(days)
+
+      expect(result).toBe(1) // Still day 1, can't skip ahead
+    })
   })
 })
