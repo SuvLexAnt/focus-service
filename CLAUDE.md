@@ -60,7 +60,8 @@ This is a React 18 + TypeScript meditation web app built with Vite. It presents 
 
 - `App.tsx` — main orchestrator, fetches/parses content, manages selected day state
 - `DaySelector/` — 10-day grid, shows progress bars, locks future days
-- `PracticeCard/` — expandable card with checkbox, shows practice details
+- `PracticeCard/` — expandable card with checkbox, shows practice details, supports replacement
+- `BonusChallenges/` — bonus challenges section with add/replace/remove
 - `Checkbox/` — custom checkbox triggering success animations
 - `SuccessAnimation/` — 5 random animations (confetti, ripple, sparkle, pulse, check bounce)
 - `StartDateModal/` — first-run modal for date selection
@@ -75,6 +76,57 @@ Days unlock sequentially: completing all practices in day N unlocks day N+1. Pro
 - CSS variables in `src/index.css` define color palette and typography
 - Font: Inter (Google Fonts)
 - Mobile-first responsive design
+
+## Bonus Challenges Feature
+
+Users can add up to 5 bonus challenges per day from `challenges-pool.json`.
+
+### Key Files
+- `challenges-pool.json` — 50+ practices grouped by duration (1, 2, 3, 5, 7, 10 min)
+- `src/utils/challengeGenerator.ts` — random challenge selection
+- `src/utils/bonusChallengesStorage.ts` — localStorage persistence (key: `meditation-bonus-challenges`)
+- `src/hooks/useBonusChallenges.ts` — state management hook
+- `src/components/BonusChallenges/` — UI component
+
+### Challenge Structure
+Each practice contains: `id`, `title`, `category`, `purpose`, `instructions` (whatToDo, focusOn, dontFocusOn)
+
+### 12 Categories
+breathing, grounding, body, mindfulness, compassion, concentration, emotional, gratitude, visualization, movement, sensory, energy
+
+### Features
+- Add challenge with specific duration or random
+- Replace challenge with same duration alternative
+- Delete challenge
+- Track completion separately from main progress
+- Max 5 per day
+
+## Practice Replacement Feature
+
+Users can replace any main practice with an alternative from the challenge pool.
+
+### Key Files
+- `src/utils/practiceReplacementsStorage.ts` — localStorage persistence (key: `meditation-replacements`)
+- `src/hooks/usePracticeReplacements.ts` — state management hook
+- `src/components/PracticeCard/PracticeCard.tsx` — UI with replace button
+
+### Features
+- Replace button (🔄) visible only on uncompleted practices
+- Replacement matches original duration (or nearby if unavailable)
+- Shows "Замена" badge and category badge on replaced practices
+- Displays replacement content (purpose, instructions)
+- Tracks shown IDs to avoid repeating same replacement
+- Persists across sessions via localStorage
+
+### Data Structure
+```typescript
+interface ReplacementsData {
+  days: { [dayId: string]: { [practiceId: string]: Challenge } };
+  shownIds: string[];  // history of shown replacements
+}
+```
+
+---
 
 ## Editing Meditation Content
 

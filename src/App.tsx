@@ -4,6 +4,7 @@ import { Day } from './types/meditation';
 import { loadMeditationProgram } from './utils/parser';
 import { useProgress } from './hooks/useProgress';
 import { useBonusChallenges } from './hooks/useBonusChallenges';
+import { usePracticeReplacements } from './hooks/usePracticeReplacements';
 import { getMaxAvailableDay } from './utils/storage';
 import { StartDateModal } from './components/StartDateModal/StartDateModal';
 import { DaySelector } from './components/DaySelector/DaySelector';
@@ -19,6 +20,7 @@ function App() {
 
   const dayId = `day-${selectedDay}`;
   const bonusChallenges = useBonusChallenges(dayId);
+  const practiceReplacements = usePracticeReplacements(dayId);
 
   useEffect(() => {
     loadMeditationProgram().then((loadedDays) => {
@@ -100,6 +102,7 @@ function App() {
               {currentDay.practices.map((practice) => {
                 const currentDayId = `day-${currentDay.number}`;
                 const isCompleted = isPracticeCompleted(currentDayId, practice.id);
+                const replacement = practiceReplacements.getReplacement(practice.id);
 
                 return (
                   <PracticeCard
@@ -107,6 +110,8 @@ function App() {
                     practice={practice}
                     isCompleted={isCompleted}
                     onToggle={() => handleTogglePractice(currentDayId, practice.id)}
+                    onReplace={() => practiceReplacements.replaceWithChallenge(practice)}
+                    replacedWith={replacement}
                   />
                 );
               })}

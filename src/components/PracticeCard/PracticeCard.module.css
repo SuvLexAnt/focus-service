@@ -58,22 +58,84 @@
   letter-spacing: 0.5px;
 }
 
+.replacedBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6366F1;
+  background: rgba(99, 102, 241, 0.1);
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.categoryBadge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B7280;
+  background: #F3F4F6;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.purpose {
+  font-size: 14px;
+  color: #6B7280;
+  margin: 12px 0 0 36px;
+  line-height: 1.5;
+  font-style: italic;
+}
+
 .duration {
   font-size: 14px;
   color: #888;
   font-weight: 500;
 }
 
-.expandButton {
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.replaceButton {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #888;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+}
+
+.replaceButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+.replaceButton:hover {
+  color: #7C9885;
+  background: rgba(124, 152, 133, 0.1);
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: all 0.2s ease;
+  border-radius: 6px;
   flex-shrink: 0;
 }
 

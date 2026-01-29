@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { PracticeCard } from './PracticeCard'
-import { Practice } from '../../types/meditation'
+import { Practice, Challenge } from '../../types/meditation'
 
 const mockPractice: Practice = {
   id: 'day-1-practice-1',
@@ -11,6 +11,19 @@ const mockPractice: Practice = {
   focusOn: 'На ощущениях дыхания',
   dontFocusOn: 'На посторонних мыслях',
   isMain: false,
+}
+
+const mockReplacement: Challenge = {
+  id: 'replacement-1',
+  title: 'Замещающая практика',
+  category: 'grounding',
+  purpose: 'Альтернативная практика для заземления',
+  duration: 5,
+  instructions: {
+    whatToDo: 'Почувствуйте опору под ногами',
+    focusOn: 'На ощущениях в стопах',
+    dontFocusOn: 'На тревожных мыслях',
+  },
 }
 
 describe('PracticeCard', () => {
@@ -185,5 +198,121 @@ describe('PracticeCard', () => {
     fireEvent.click(expandButton)
 
     expect(screen.queryByText('Что делать')).not.toBeInTheDocument()
+  })
+
+  describe('replace functionality', () => {
+    it('should show replace button when onReplace is provided and not completed', () => {
+      render(
+        <PracticeCard
+          practice={mockPractice}
+          isCompleted={false}
+          onToggle={() => {}}
+          onReplace={() => {}}
+        />
+      )
+
+      expect(screen.getByRole('button', { name: 'Заменить практику' })).toBeInTheDocument()
+    })
+
+    it('should not show replace button when completed', () => {
+      render(
+        <PracticeCard
+          practice={mockPractice}
+          isCompleted={true}
+          onToggle={() => {}}
+          onReplace={() => {}}
+        />
+      )
+
+      expect(screen.queryByRole('button', { name: 'Заменить практику' })).not.toBeInTheDocument()
+    })
+
+    it('should not show replace button when onReplace is not provided', () => {
+      render(
+        <PracticeCard
+          practice={mockPractice}
+          isCompleted={false}
+          onToggle={() => {}}
+        />
+      )
+
+      expect(screen.queryByRole('button', { name: 'Заменить практику' })).not.toBeInTheDocument()
+    })
+
+    it('should call onReplace when replace button is clicked', () => {
+      const handleReplace = vi.fn()
+      render(
+        <PracticeCard
+          practice={mockPractice}
+          isCompleted={false}
+          onToggle={() => {}}
+          onReplace={handleReplace}
+        />
+      )
+
+      fireEvent.click(screen.getByRole('button', { name: 'Заменить практику' }))
+      expect(handleReplace).toHaveBeenCalledTimes(1)
+    })
+
+    it('should show replacement content when replacedWith is provided', () => {
+      render(
+        <PracticeCard
+          practice={mockPractice}
+          isCompleted={false}
+          onToggle={() => {}}
+          onReplace={() => {}}
+          replacedWith={mockReplacement}
+        />
+      )
+
+      expect(screen.getByText('Замещающая практика')).toBeInTheDocument()
+      expect(screen.getByText('5 мин')).toBeInTheDocument()
+      expect(screen.getByText('Замена')).toBeInTheDocument()
+    })
+
+    it('should show replacement purpose', () => {
+      render(
+        <PracticeCard
+          practice={mockPractice}
+          isCompleted={false}
+          onToggle={() => {}}
+          replacedWith={mockReplacement}
+        />
+      )
+
+      expect(screen.getByText('Альтернативная практика для заземления')).toBeInTheDocument()
+    })
+
+    it('should show replacement instructions when expanded', () => {
+      render(
+        <PracticeCard
+          practice={mockPractice}
+          isCompleted={false}
+          onToggle={() => {}}
+          replacedWith={mockReplacement}
+        />
+      )
+
+      const expandButton = screen.getByRole('button', { name: 'Развернуть' })
+      fireEvent.click(expandButton)
+
+      expect(screen.getByText('Почувствуйте опору под ногами')).toBeInTheDocument()
+      expect(screen.getByText('На ощущениях в стопах')).toBeInTheDocument()
+    })
+
+    it('should not show main badge when replaced', () => {
+      const mainPractice = { ...mockPractice, isMain: true }
+      render(
+        <PracticeCard
+          practice={mainPractice}
+          isCompleted={false}
+          onToggle={() => {}}
+          replacedWith={mockReplacement}
+        />
+      )
+
+      expect(screen.queryByText('Основная')).not.toBeInTheDocument()
+      expect(screen.getByText('Замена')).toBeInTheDocument()
+    })
   })
 })
