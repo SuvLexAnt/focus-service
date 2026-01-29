@@ -201,42 +201,73 @@ describe('storage', () => {
   })
 
   describe('getMaxAvailableDay', () => {
+    const createDays = (practicesPerDay: number[]) =>
+      practicesPerDay.map((count, i) => ({
+        number: i + 1,
+        practices: Array.from({ length: count }, (_, j) => ({ id: `p${j + 1}` })),
+      }))
+
     it('should return 1 when no progress', () => {
-      const result = getMaxAvailableDay(10)
+      const days = createDays([3, 3, 3])
+      const result = getMaxAvailableDay(days)
 
       expect(result).toBe(1)
     })
 
-    it('should return current day when has incomplete practices', () => {
+    it('should return current day when has incomplete practices (some marked false)', () => {
       localStorage.setItem('meditation-data', JSON.stringify({
         startDate: null,
         currentDay: 1,
         progress: {
           'day-1': {
-            'day-1-practice-1': true,
-            'day-1-practice-2': false,
+            'p1': true,
+            'p2': false,
           },
         },
       }))
 
-      const result = getMaxAvailableDay(10)
+      const days = createDays([3, 3, 3])
+      const result = getMaxAvailableDay(days)
 
       expect(result).toBe(1)
     })
 
-    it('should return next day when current day is completed', () => {
+    it('should return current day when some practices not tracked at all (bug fix)', () => {
+      // This is the bug scenario: 2 practices completed, but day has 3 total
+      // Old code would unlock day 2 because all TRACKED practices were true
       localStorage.setItem('meditation-data', JSON.stringify({
         startDate: null,
         currentDay: 1,
         progress: {
           'day-1': {
-            'day-1-practice-1': true,
-            'day-1-practice-2': true,
+            'p1': true,
+            'p2': true,
+            // p3 not tracked at all
           },
         },
       }))
 
-      const result = getMaxAvailableDay(10)
+      const days = createDays([3, 3, 3]) // Day 1 has 3 practices
+      const result = getMaxAvailableDay(days)
+
+      expect(result).toBe(1) // Should still be day 1, not day 2
+    })
+
+    it('should return next day when current day is fully completed', () => {
+      localStorage.setItem('meditation-data', JSON.stringify({
+        startDate: null,
+        currentDay: 1,
+        progress: {
+          'day-1': {
+            'p1': true,
+            'p2': true,
+            'p3': true,
+          },
+        },
+      }))
+
+      const days = createDays([3, 3, 3])
+      const result = getMaxAvailableDay(days)
 
       expect(result).toBe(2)
     })
@@ -252,9 +283,26 @@ describe('storage', () => {
         },
       }))
 
-      const result = getMaxAvailableDay(3)
+      const days = createDays([1, 1, 1])
+      const result = getMaxAvailableDay(days)
 
       expect(result).toBe(3)
+    })
+
+    it('should handle days with different practice counts', () => {
+      localStorage.setItem('meditation-data', JSON.stringify({
+        startDate: null,
+        currentDay: 1,
+        progress: {
+          'day-1': { 'p1': true, 'p2': true }, // 2/2 complete
+          'day-2': { 'p1': true }, // 1/5 complete
+        },
+      }))
+
+      const days = createDays([2, 5, 3]) // Day 1: 2, Day 2: 5, Day 3: 3
+      const result = getMaxAvailableDay(days)
+
+      expect(result).toBe(2) // Day 2 is available but not complete
     })
   })
 })

@@ -69,28 +69,23 @@ export function getDayProgress(dayId: string): { completed: number; total: numbe
   return { completed, total: Object.keys(dayProgress).length };
 }
 
-export function getMaxAvailableDay(totalDays: number): number {
+export function getMaxAvailableDay(days: { number: number; practices: { id: string }[] }[]): number {
   const data = loadMeditationData();
 
-  for (let day = 1; day <= totalDays; day++) {
-    const dayId = `day-${day}`;
-    // Проверяем, есть ли прогресс для этого дня
-    const dayProgress = data.progress[dayId];
+  for (const day of days) {
+    const dayId = `day-${day.number}`;
+    const dayProgress = data.progress[dayId] || {};
+    const totalPractices = day.practices.length;
 
-    if (!dayProgress) {
-      // Если нет прогресса, это первый доступный день
-      return day;
-    }
+    // Считаем только завершённые практики (true)
+    const completedCount = Object.values(dayProgress).filter(Boolean).length;
 
-    // Проверяем, есть ли хотя бы одна незавершенная практика
-    const hasIncompletePractices = Object.values(dayProgress).some(v => !v);
-
-    if (hasIncompletePractices) {
-      // Есть незавершенные практики - это текущий доступный день
-      return day;
+    if (completedCount < totalPractices) {
+      // День не завершён - это текущий доступный день
+      return day.number;
     }
   }
 
   // Все дни завершены - доступен последний день
-  return totalDays;
+  return days.length;
 }

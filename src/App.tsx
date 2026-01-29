@@ -22,7 +22,7 @@ function App() {
 
       // Установить текущий доступный день
       if (data.startDate) {
-        const maxDay = getMaxAvailableDay(loadedDays.length);
+        const maxDay = getMaxAvailableDay(loadedDays);
         setSelectedDay(maxDay);
       }
     });
@@ -62,7 +62,7 @@ function App() {
   }
 
   const currentDay = days.find(d => d.number === selectedDay);
-  const maxAvailableDay = getMaxAvailableDay(days.length);
+  const maxAvailableDay = getMaxAvailableDay(days);
 
   return (
     <div className={styles.app}>
