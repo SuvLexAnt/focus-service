@@ -17,13 +17,24 @@ npm run preview      # Preview production build locally
 ## Docker
 
 ```bash
-npm run docker:up    # Build and run with Docker Compose (http://localhost:3000)
-npm run docker:down  # Stop and remove container
-npm run docker:build # Build Docker image only
-npm run docker:run   # Run container from pre-built image
+# Development (local build)
+npm run docker:up        # Build and run with Docker Compose (http://localhost:3000)
+npm run docker:down      # Stop and remove container
+npm run docker:build     # Build Docker image only
+
+# Production (from Docker Hub)
+npm run docker:prod      # Pull and run from Docker Hub (http://localhost:3000)
+npm run docker:prod:down # Stop production container
+
+# Publishing
+npm run docker:push      # Build, tag, and push to Docker Hub
 ```
 
 **Requirements:** Docker
+
+**Files:**
+- `docker-compose.yml` — local build (for development)
+- `docker-compose.prod.yml` — pulls from Docker Hub (for production/users)
 
 The Docker setup uses a multi-stage build (Node.js for build, nginx for serving) and serves the app on port 3000.
 

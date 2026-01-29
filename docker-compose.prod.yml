@@ -1,0 +1,9 @@
+# Production Docker Compose - pulls pre-built image from Docker Hub
+# Usage: docker compose -f docker-compose.prod.yml up -d
+
+services:
+  app:
+    image: ${FOCUS_SERVICE_IMAGE:-lexlexlexlex/focus-service:latest}
+    ports:
+      - "${PORT:-3000}:80"
+    restart: unless-stopped

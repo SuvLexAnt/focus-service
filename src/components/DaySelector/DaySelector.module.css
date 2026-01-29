@@ -14,10 +14,45 @@
   text-align: center;
 }
 
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .days {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 16px;
+  flex: 1;
+  min-width: 0;
+  touch-action: pan-y;
+}
+
+.navButton {
+  flex-shrink: 0;
+  width: 40px;
+  height: 80px;
+  background: #FAFAF9;
+  border: 2px solid #E8E8E7;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 24px;
+  color: #7C9885;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.navButton:hover:not(:disabled) {
+  background: rgba(124, 152, 133, 0.1);
+  border-color: #7C9885;
+}
+
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .day {
@@ -29,6 +64,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
+  min-width: 0;
 }
 
 .day:hover:not(.locked) {
@@ -67,6 +103,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .progressBar {
@@ -112,18 +150,59 @@
   font-weight: bold;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E8E8E7;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.dot:hover {
+  background: #C0C0C0;
+}
+
+.dotActive {
+  background: #7C9885;
+  width: 24px;
+  border-radius: 4px;
+}
+
 @media (max-width: 768px) {
   .container {
-    padding: 24px;
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .carousel {
+    gap: 8px;
   }
 
   .days {
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 12px;
   }
 
+  .navButton {
+    width: 32px;
+    font-size: 20px;
+  }
+
   .day {
-    padding: 12px;
+    padding: 12px 8px;
   }
 
   .dayNumber {
@@ -133,5 +212,9 @@
   .dayTitle {
     font-size: 11px;
     min-height: 28px;
+  }
+
+  .pagination {
+    margin-top: 12px;
   }
 }

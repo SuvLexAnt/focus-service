@@ -14,7 +14,11 @@
     "docker:build": "docker build -t focus-service .",
     "docker:run": "docker run -p 3000:80 focus-service",
     "docker:up": "docker compose up --build -d",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "docker:tag": "docker tag focus-service lexlexlexlex/focus-service:latest",
+    "docker:push": "npm run docker:build && npm run docker:tag && docker push lexlexlexlex/focus-service:latest",
+    "docker:prod": "docker compose -f docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker compose -f docker-compose.prod.yml down"
   },
   "dependencies": {
     "react": "^18.2.0",
