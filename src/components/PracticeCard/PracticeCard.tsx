@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Practice, Challenge } from '../../types/meditation';
+import { Practice } from '../../types/meditation';
 import { Checkbox } from '../Checkbox/Checkbox';
-import { getCategoryInfo } from '../../utils/challengeGenerator';
+import { getCategoryInfo } from '../../utils/practiceGenerator';
 import styles from './PracticeCard.module.css';
 
 interface PracticeCardProps {
@@ -9,7 +9,7 @@ interface PracticeCardProps {
   isCompleted: boolean;
   onToggle: () => void;
   onReplace?: () => void;
-  replacedWith?: Challenge | null;
+  replacedWith?: Practice | null;
 }
 
 export function PracticeCard({
@@ -23,13 +23,16 @@ export function PracticeCard({
 
   // Determine what content to display
   const isReplaced = !!replacedWith;
-  const displayTitle = isReplaced ? replacedWith.title : practice.title;
-  const displayDuration = isReplaced ? `${replacedWith.duration} мин` : practice.duration;
-  const displayWhatToDo = isReplaced ? replacedWith.instructions.whatToDo : practice.whatToDo;
-  const displayFocusOn = isReplaced ? replacedWith.instructions.focusOn : practice.focusOn;
-  const displayDontFocusOn = isReplaced ? replacedWith.instructions.dontFocusOn : practice.dontFocusOn;
+  const displayPractice = isReplaced ? replacedWith : practice;
+  const displayTitle = displayPractice.title;
+  const displayDuration = `${displayPractice.duration} мин`;
+  const displayWhatToDo = displayPractice.instructions.whatToDo;
+  const displayFocusOn = displayPractice.instructions.focusOn;
+  const displayDontFocusOn = displayPractice.instructions.dontFocusOn;
 
-  const categoryInfo = isReplaced ? getCategoryInfo(replacedWith.category) : null;
+  const categoryInfo = isReplaced && replacedWith.category !== 'program'
+    ? getCategoryInfo(replacedWith.category)
+    : null;
 
   return (
     <div className={`${styles.card} ${isCompleted ? styles.completed : ''}`}>

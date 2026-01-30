@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BonusChallenges } from './BonusChallenges';
-import { Challenge } from '../../types/meditation';
+import { Practice } from '../../types/meditation';
 
-const mockChallenge: Challenge = {
+const mockChallenge: Practice = {
   id: 'test-challenge-1',
   title: 'Test Challenge',
   category: 'breathing',
@@ -17,7 +17,7 @@ const mockChallenge: Challenge = {
 };
 
 const defaultProps = {
-  challenges: [] as Challenge[],
+  challenges: [] as Practice[],
   canAddMore: true,
   maxChallenges: 5,
   onAdd: vi.fn(() => mockChallenge),

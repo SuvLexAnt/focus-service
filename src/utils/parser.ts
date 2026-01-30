@@ -1,5 +1,13 @@
 import { Day, Practice } from '../types/meditation';
 
+/**
+ * Parse duration string like "5 минут" or "10 мин" to number
+ */
+function parseDuration(durationStr: string): number {
+  const match = durationStr.match(/(\d+)/);
+  return match ? parseInt(match[1], 10) : 5;
+}
+
 export function parseMeditationProgram(markdown: string): Day[] {
   const days: Day[] = [];
 
@@ -38,7 +46,8 @@ export function parseMeditationProgram(markdown: string): Day[] {
 
       // Извлечь продолжительность из заголовка (например, "(5 минут)")
       const durationMatch = practiceTitle.match(/\((\d+(?:\s*[хx×]\s*\d+)?\s*мину[тн].*?)\)/i);
-      const duration = durationMatch ? durationMatch[1] : '';
+      const durationStr = durationMatch ? durationMatch[1] : '5 минут';
+      const duration = parseDuration(durationStr);
 
       // Очистить название от дополнительной информации
       const cleanTitle = practiceTitle
@@ -62,10 +71,14 @@ export function parseMeditationProgram(markdown: string): Day[] {
         id: `day-${dayNumber}-practice-${practiceNumber}`,
         title: cleanTitle,
         duration,
-        whatToDo,
-        focusOn,
-        dontFocusOn,
+        category: 'program',
+        instructions: {
+          whatToDo,
+          focusOn,
+          dontFocusOn,
+        },
         isMain,
+        isFromProgram: true,
       });
     }
 

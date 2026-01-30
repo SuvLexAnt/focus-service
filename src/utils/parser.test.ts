@@ -28,11 +28,13 @@ describe('parseMeditationProgram', () => {
     expect(result[0].practices).toHaveLength(1)
     expect(result[0].practices[0].id).toBe('day-1-practice-1')
     expect(result[0].practices[0].title).toBe('Дыхание')
-    expect(result[0].practices[0].duration).toBe('5 минут')
-    expect(result[0].practices[0].whatToDo).toBe('Сядьте удобно')
-    expect(result[0].practices[0].focusOn).toBe('На дыхании')
-    expect(result[0].practices[0].dontFocusOn).toBe('На мыслях')
+    expect(result[0].practices[0].duration).toBe(5)
+    expect(result[0].practices[0].category).toBe('program')
+    expect(result[0].practices[0].instructions.whatToDo).toBe('Сядьте удобно')
+    expect(result[0].practices[0].instructions.focusOn).toBe('На дыхании')
+    expect(result[0].practices[0].instructions.dontFocusOn).toBe('На мыслях')
     expect(result[0].practices[0].isMain).toBe(false)
+    expect(result[0].practices[0].isFromProgram).toBe(true)
   })
 
   it('should mark main practice correctly', () => {
@@ -114,7 +116,7 @@ describe('parseMeditationProgram', () => {
     expect(result[0].practices[2].title).toBe('Третья')
   })
 
-  it('should parse duration with multiplication format', () => {
+  it('should parse duration with multiplication format as first number', () => {
     const markdown = `
 ## День 1: Тест
 
@@ -128,7 +130,8 @@ describe('parseMeditationProgram', () => {
 `
     const result = parseMeditationProgram(markdown)
 
-    expect(result[0].practices[0].duration).toBe('3 x 5 минут')
+    // Parser extracts first number from duration string
+    expect(result[0].practices[0].duration).toBe(3)
   })
 
   it('should handle missing goal gracefully', () => {
@@ -160,7 +163,7 @@ describe('parseMeditationProgram', () => {
 `
     const result = parseMeditationProgram(markdown)
 
-    expect(result[0].practices[0].whatToDo).toBe('Делать что-то с ссылками')
+    expect(result[0].practices[0].instructions.whatToDo).toBe('Делать что-то с ссылками')
   })
 
   it('should skip sections without practices', () => {
@@ -172,5 +175,22 @@ describe('parseMeditationProgram', () => {
     const result = parseMeditationProgram(markdown)
 
     expect(result).toHaveLength(0)
+  })
+
+  it('should default duration to 5 when not specified', () => {
+    const markdown = `
+## День 1: Тест
+
+**Цель дня:** Цель
+
+### Практика 1: Без длительности
+
+**Что делать:** Делать
+**На чём фокусироваться:** Фокус
+**На чём НЕ фокусироваться:** Нет
+`
+    const result = parseMeditationProgram(markdown)
+
+    expect(result[0].practices[0].duration).toBe(5)
   })
 })

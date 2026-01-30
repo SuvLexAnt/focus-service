@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import { Challenge, ChallengeDuration } from '../../types/meditation';
+import { Practice, PracticeDuration } from '../../types/meditation';
 import { Checkbox } from '../Checkbox/Checkbox';
-import { getCategoryInfo, getAvailableDurations } from '../../utils/challengeGenerator';
+import { getCategoryInfo, getAvailableDurations } from '../../utils/practiceGenerator';
 import styles from './BonusChallenges.module.css';
 
 interface BonusChallengesProps {
-  challenges: Challenge[];
+  challenges: Practice[];
   canAddMore: boolean;
   maxChallenges: number;
-  onAdd: (duration?: ChallengeDuration) => Challenge | null;
-  onReplace: (challengeId: string) => Challenge | null;
-  onRemove: (challengeId: string) => void;
-  onToggle: (challengeId: string) => boolean;
-  isChallengeCompleted: (challengeId: string) => boolean;
+  onAdd: (duration?: PracticeDuration) => Practice | null;
+  onReplace: (practiceId: string) => Practice | null;
+  onRemove: (practiceId: string) => void;
+  onToggle: (practiceId: string) => boolean;
+  isChallengeCompleted: (practiceId: string) => boolean;
 }
 
 export function BonusChallenges({
@@ -32,31 +32,31 @@ export function BonusChallenges({
     setShowDurationPicker(true);
   };
 
-  const handleDurationSelect = (duration?: ChallengeDuration) => {
+  const handleDurationSelect = (duration?: PracticeDuration) => {
     onAdd(duration);
     setShowDurationPicker(false);
   };
 
-  const handleReplace = (challengeId: string) => {
-    onReplace(challengeId);
+  const handleReplace = (practiceId: string) => {
+    onReplace(practiceId);
   };
 
-  const handleRemove = (challengeId: string) => {
-    onRemove(challengeId);
+  const handleRemove = (practiceId: string) => {
+    onRemove(practiceId);
     setExpandedCards((prev) => {
       const next = new Set(prev);
-      next.delete(challengeId);
+      next.delete(practiceId);
       return next;
     });
   };
 
-  const toggleExpanded = (challengeId: string) => {
+  const toggleExpanded = (practiceId: string) => {
     setExpandedCards((prev) => {
       const next = new Set(prev);
-      if (next.has(challengeId)) {
-        next.delete(challengeId);
+      if (next.has(practiceId)) {
+        next.delete(practiceId);
       } else {
-        next.add(challengeId);
+        next.add(practiceId);
       }
       return next;
     });
@@ -80,39 +80,39 @@ export function BonusChallenges({
       )}
 
       <div className={styles.challenges}>
-        {challenges.map((challenge) => {
-          const isCompleted = isChallengeCompleted(challenge.id);
-          const isExpanded = expandedCards.has(challenge.id);
-          const categoryInfo = getCategoryInfo(challenge.category);
+        {challenges.map((practice) => {
+          const isCompleted = isChallengeCompleted(practice.id);
+          const isExpanded = expandedCards.has(practice.id);
+          const categoryInfo = getCategoryInfo(practice.category);
 
           return (
             <div
-              key={challenge.id}
+              key={practice.id}
               className={`${styles.card} ${isCompleted ? styles.completed : ''}`}
             >
               <div className={styles.cardHeader}>
                 <div className={styles.cardHeaderLeft}>
                   <Checkbox
                     checked={isCompleted}
-                    onChange={() => onToggle(challenge.id)}
-                    id={`bonus-${challenge.id}`}
+                    onChange={() => onToggle(practice.id)}
+                    id={`bonus-${practice.id}`}
                   />
                   <div className={styles.cardTitleContainer}>
                     <div className={styles.cardTitleRow}>
-                      <h4 className={styles.cardTitle}>{challenge.title}</h4>
+                      <h4 className={styles.cardTitle}>{practice.title}</h4>
                       {categoryInfo && (
                         <span className={styles.categoryBadge}>{categoryInfo.name}</span>
                       )}
                     </div>
                     <div className={styles.cardMeta}>
-                      <span className={styles.duration}>{challenge.duration} мин</span>
+                      <span className={styles.duration}>{practice.duration} мин</span>
                     </div>
                   </div>
                 </div>
                 <div className={styles.cardActions}>
                   {!isCompleted && (
                     <button
-                      onClick={() => handleReplace(challenge.id)}
+                      onClick={() => handleReplace(practice.id)}
                       className={styles.actionButton}
                       title="Заменить практику"
                       aria-label="Заменить практику"
@@ -123,7 +123,7 @@ export function BonusChallenges({
                     </button>
                   )}
                   <button
-                    onClick={() => handleRemove(challenge.id)}
+                    onClick={() => handleRemove(practice.id)}
                     className={`${styles.actionButton} ${styles.removeButton}`}
                     title="Удалить практику"
                     aria-label="Удалить практику"
@@ -133,7 +133,7 @@ export function BonusChallenges({
                     </svg>
                   </button>
                   <button
-                    onClick={() => toggleExpanded(challenge.id)}
+                    onClick={() => toggleExpanded(practice.id)}
                     className={styles.expandButton}
                     aria-label={isExpanded ? 'Свернуть' : 'Развернуть'}
                   >
@@ -151,26 +151,26 @@ export function BonusChallenges({
               </div>
 
               {/* Purpose - always visible */}
-              <p className={styles.purpose}>{challenge.purpose}</p>
+              {practice.purpose && <p className={styles.purpose}>{practice.purpose}</p>}
 
               {isExpanded && (
                 <div className={styles.cardContent}>
-                  {challenge.instructions.whatToDo && (
+                  {practice.instructions.whatToDo && (
                     <div className={styles.section}>
                       <h5 className={styles.sectionTitle}>Что делать</h5>
-                      <p className={styles.sectionText}>{challenge.instructions.whatToDo}</p>
+                      <p className={styles.sectionText}>{practice.instructions.whatToDo}</p>
                     </div>
                   )}
-                  {challenge.instructions.focusOn && (
+                  {practice.instructions.focusOn && (
                     <div className={styles.section}>
                       <h5 className={styles.sectionTitle}>На чём фокусироваться</h5>
-                      <p className={styles.sectionText}>{challenge.instructions.focusOn}</p>
+                      <p className={styles.sectionText}>{practice.instructions.focusOn}</p>
                     </div>
                   )}
-                  {challenge.instructions.dontFocusOn && (
+                  {practice.instructions.dontFocusOn && (
                     <div className={styles.section}>
                       <h5 className={styles.sectionTitle}>На чём НЕ фокусироваться</h5>
-                      <p className={styles.sectionText}>{challenge.instructions.dontFocusOn}</p>
+                      <p className={styles.sectionText}>{practice.instructions.dontFocusOn}</p>
                     </div>
                   )}
                 </div>

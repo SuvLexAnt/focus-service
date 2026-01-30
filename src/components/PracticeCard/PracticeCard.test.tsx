@@ -1,19 +1,23 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { PracticeCard } from './PracticeCard'
-import { Practice, Challenge } from '../../types/meditation'
+import { Practice } from '../../types/meditation'
 
 const mockPractice: Practice = {
   id: 'day-1-practice-1',
   title: 'Дыхательная практика',
-  duration: '5 минут',
-  whatToDo: 'Сядьте удобно и закройте глаза',
-  focusOn: 'На ощущениях дыхания',
-  dontFocusOn: 'На посторонних мыслях',
+  duration: 5,
+  category: 'program',
+  instructions: {
+    whatToDo: 'Сядьте удобно и закройте глаза',
+    focusOn: 'На ощущениях дыхания',
+    dontFocusOn: 'На посторонних мыслях',
+  },
   isMain: false,
+  isFromProgram: true,
 }
 
-const mockReplacement: Challenge = {
+const mockReplacement: Practice = {
   id: 'replacement-1',
   title: 'Замещающая практика',
   category: 'grounding',
@@ -24,6 +28,7 @@ const mockReplacement: Challenge = {
     focusOn: 'На ощущениях в стопах',
     dontFocusOn: 'На тревожных мыслях',
   },
+  isFromProgram: false,
 }
 
 describe('PracticeCard', () => {
@@ -48,7 +53,7 @@ describe('PracticeCard', () => {
       />
     )
 
-    expect(screen.getByText('5 минут')).toBeInTheDocument()
+    expect(screen.getByText('5 мин')).toBeInTheDocument()
   })
 
   it('should show main badge for main practice', () => {
@@ -181,9 +186,11 @@ describe('PracticeCard', () => {
   it('should not render empty sections', () => {
     const practiceWithoutSections: Practice = {
       ...mockPractice,
-      whatToDo: '',
-      focusOn: '',
-      dontFocusOn: '',
+      instructions: {
+        whatToDo: '',
+        focusOn: '',
+        dontFocusOn: '',
+      },
     }
 
     render(
